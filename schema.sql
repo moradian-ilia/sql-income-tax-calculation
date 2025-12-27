@@ -1,8 +1,4 @@
-CREATE TABLE TaxConfig (
-    TaxExemptionAmount DECIMAL(18,2)
-);
-
-CREATE TABLE TaxBrackets (
+CREATE TABLE dbo.TaxParameters (
     Id INT PRIMARY KEY,
     BracketFrom DECIMAL(18,2),
     BracketTo   DECIMAL(18,2),
