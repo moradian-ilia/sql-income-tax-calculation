@@ -5,20 +5,8 @@ CREATE FUNCTION dbo.CalculateIncomeTax
 RETURNS DECIMAL(18,2)
 AS
 BEGIN
-    DECLARE 
-        @CalculatedTax DECIMAL(18,2) = 0,
-        @TaxExemptionAmount DECIMAL(18,2);
+    DECLARE @CalculatedTax DECIMAL(18,2);
 
-    -- Load tax exemption amount
-    SELECT 
-        @TaxExemptionAmount = TaxExemptionAmount
-    FROM params;
-
-    -- No tax if income is below exemption
-    IF (@TaxableIncome <= @TaxExemptionAmount)
-        RETURN 0;
-
-    -- Progressive tax calculation (cumulative)
     SELECT 
         @CalculatedTax = SUM(
             CASE
@@ -34,7 +22,7 @@ BEGIN
                 ELSE 0
             END
         )
-    FROM params;
+    FROM dbo.TaxParameters;
 
     RETURN ROUND(@CalculatedTax, 2);
 END;
